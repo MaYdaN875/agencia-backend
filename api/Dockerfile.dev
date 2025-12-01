@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+# Ubicación de trabajo del proyecto dentro del contenedor
+WORKDIR /usr/src/app
+
+# Solo para instalar dependencias
+COPY package*.json ./
+
+RUN npm install
+
+# Copiamos el resto del código
+COPY . .
+
+# Exponemos el puerto donde correrá el servidor
+EXPOSE 3000
+
+# Comando de desarrollo con nodemon
+CMD ["npm", "run", "dev"]

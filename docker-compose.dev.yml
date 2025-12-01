@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mi_app
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppassword
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+    ports:
+      - "3306:3306"
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./api/.env.example  # para desarrollo usamos esto por ahora
+
+volumes:
+  db_data:

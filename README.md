@@ -1,3 +1,10 @@
+# Programas necesarios
+
+- GIT
+- Docker
+- Node.js
+- Visual Studio Code
+
 # Como ejecutar el proyecto
 
 1. Clona el repositorio

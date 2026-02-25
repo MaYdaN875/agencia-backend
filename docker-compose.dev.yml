@@ -29,6 +29,16 @@ services:
       - db
     env_file:
       - ./api/.env.example  # para desarrollo usamos esto por ahora
+  loadbalancer:
+    image: nginx:latest
+    container_name: loadbalancer
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
 
 volumes:
   db_data:

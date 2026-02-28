@@ -1,10 +1,42 @@
 // src/controllers/flightController.js
 import * as FlightModel from '../models/Flight.js';
 
+export const getDestinations = async (req, res) => {
+  try {
+    const origin = req.query.origin;
+    if (!origin) return res.json([]);
+    const list = await FlightModel.getDestinationsByOrigin(origin);
+    res.json(list);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting destinations' });
+  }
+};
+
+export const getAvailableDates = async (req, res) => {
+  try {
+    const { origin, destination } = req.query;
+    if (!origin || !destination) {
+      return res.json({ departure_dates: [], return_dates: [] });
+    }
+    const data = await FlightModel.getAvailableDates(origin, destination);
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting available dates' });
+  }
+};
+
 
 export const getAllFlights = async (req, res) => {
   try {
-    const flights = await FlightModel.getFlights();
+    const filters = {
+      origin: req.query.origin,
+      destination: req.query.destination,
+      departure_date: req.query.departure_date,
+      min_seats: req.query.min_seats
+    };
+    const flights = await FlightModel.getFlights(filters);
     res.json(flights);
   } catch (error) {
     console.error(error);

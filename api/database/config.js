@@ -13,7 +13,7 @@ let connection = async () => {
 
   } catch (error) {
     console.log("⏳ MySQL no está listo, reintentando en 5s...");
-    setTimeout(dbConnection, 5000);
+    setTimeout(connection, 5000);
   }
 };
 

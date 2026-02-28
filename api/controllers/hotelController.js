@@ -1,7 +1,20 @@
 import * as Hotel from '../models/Hotel.js';
 
 export const getAll = async (req, res) => {
-  const [rows] = await Hotel.getAllHotels();
+  const filters = { location: req.query.location };
+  const rows = await Hotel.getAllHotels(filters);
+  res.json(rows);
+};
+
+export const getDestinations = async (req, res) => {
+  const list = await Hotel.getDistinctLocations();
+  res.json(list);
+};
+
+export const searchWithRooms = async (req, res) => {
+  const location = req.query.location || '';
+  const min_capacity = req.query.min_capacity || 1;
+  const rows = await Hotel.getHotelsWithRooms(location, min_capacity);
   res.json(rows);
 };
 

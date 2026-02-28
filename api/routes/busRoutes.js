@@ -4,6 +4,8 @@ import * as BusController from '../controllers/busController.js';
 const router = Router();
 
 router.get('/', BusController.getAll);
+router.get('/destinations', BusController.getDestinations);
+router.get('/available-dates', BusController.getAvailableDates);
 router.get('/:id', BusController.getById);
 router.post('/', BusController.create);
 router.put('/:id', BusController.update);

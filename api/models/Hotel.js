@@ -1,8 +1,34 @@
 
 import {connection} from '../database/config.js';
 
-export const getAllHotels = () =>
-  connection.execute('SELECT * FROM hotels');
+export const getAllHotels = async (filters = {}) => {
+  let sql = 'SELECT * FROM hotels WHERE 1=1';
+  const params = [];
+  if (filters.location) {
+    sql += ' AND location LIKE ?';
+    params.push(`%${filters.location}%`);
+  }
+  const [rows] = await connection.execute(sql, params);
+  return rows;
+};
+
+export const getDistinctLocations = async () => {
+  const [rows] = await connection.execute(
+    'SELECT DISTINCT location FROM hotels ORDER BY location'
+  );
+  return rows.map((r) => r.location);
+};
+
+export const getHotelsWithRooms = async (location, minCapacity) => {
+  const [rows] = await connection.execute(
+    `SELECT h.*, hr.room_type, hr.capacity, hr.price_per_night, hr.id AS room_id 
+     FROM hotels h 
+     JOIN hotel_rooms hr ON h.id = hr.hotel_id 
+     WHERE h.location LIKE ? AND hr.capacity >= ?`,
+    [`%${location}%`, Number(minCapacity) || 0]
+  );
+  return rows;
+};
 
 export const getHotelById = (id) =>
   connection.execute('SELECT * FROM hotels WHERE id = ?', [id]);

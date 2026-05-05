@@ -32,6 +32,9 @@ app.use("/api/locations", locationRoutes);
 app.use("/api/reservations", reservationRoutes);
 
 
-app.listen(PORT, () => console.log(`Servidor escuchando en puerto ${PORT}`));
+const HOST = process.env.HOST || '0.0.0.0';
+app.listen(PORT, HOST, () =>
+  console.log(`Servidor escuchando en http://${HOST}:${PORT}`)
+);
 
 export default app;

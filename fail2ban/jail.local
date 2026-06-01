@@ -8,6 +8,10 @@ maxretry = 3
 banaction = iptables-multiport
 backend = auto
 
+# Desactivar la cárcel de SSH por defecto de Alpine para evitar errores de log faltante
+[sshd]
+enabled = false
+
 # Ignorar localhost de la regla de bloqueo (opcional, pero para pruebas locales lo comentamos)
 # ignoreip = 127.0.0.1/8 ::1
 

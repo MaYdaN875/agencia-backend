@@ -1,0 +1,37 @@
+[DEFAULT]
+# Configuraciones globales didácticas (tiempos cortos para pruebas fáciles)
+bantime  = 60s
+findtime = 60s
+maxretry = 3
+
+# Acción de bloqueo: usa iptables para denegar todos los puertos a la IP atacante
+banaction = iptables-multiport
+backend = auto
+
+# Desactivar la cárcel de SSH por defecto de Alpine para evitar errores de log faltante
+[sshd]
+enabled = false
+
+# Ignorar localhost de la regla de bloqueo (opcional, pero para pruebas locales lo comentamos)
+# ignoreip = 127.0.0.1/8 ::1
+
+[nginx-noscript]
+enabled  = true
+port     = http,https
+filter   = nginx-noscript
+logpath  = /var/log/nginx/custom_access.log
+maxretry = 2
+
+[nginx-http-auth]
+enabled  = true
+port     = http,https
+filter   = nginx-http-auth
+logpath  = /var/log/nginx/custom_error.log
+maxretry = 3
+
+[express-login-bruteforce]
+enabled  = true
+port     = http,https
+filter   = express-login
+logpath  = /var/log/nginx/custom_access.log
+maxretry = 3

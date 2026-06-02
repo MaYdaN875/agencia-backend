@@ -1,0 +1,17 @@
+# ==========================================
+# Reglas Locales Educativas para Snort
+# ==========================================
+
+# 1. Detectar pings (ICMP) dirigidos a cualquier interfaz
+alert icmp any any -> any any (msg:"[EDUCATIVO] PING Detectado - Escaneo de Host"; sid:1000001; rev:2;)
+
+# 2. Detectar intentos de acceso al archivo .env (sensible)
+# Monitoreamos el tráfico bidireccional para asegurar la coincidencia en cualquier puerto
+alert tcp any any -> any any (msg:"[EDUCATIVO] Intento de Acceso a archivo .env - Posible Robo de Credenciales"; content:".env"; nocase; sid:1000002; rev:2;)
+
+# 3. Detectar inyección SQL en la URL o cuerpo (UNION SELECT)
+# Buscamos "union" y "select" por separado para evadir codificación URL
+alert tcp any any -> any any (msg:"[EDUCATIVO] Posible Inyeccion SQL Detectada (UNION SELECT)"; content:"union"; nocase; content:"select"; nocase; sid:1000003; rev:2;)
+
+# 4. Detectar intentos de Cross-Site Scripting (XSS) mediante la etiqueta script
+alert tcp any any -> any any (msg:"[EDUCATIVO] Posible inyeccion XSS Detectada (<script>)"; content:"script"; nocase; sid:1000004; rev:2;)

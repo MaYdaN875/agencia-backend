@@ -3,6 +3,9 @@ FROM alpine:3.18
 # Instalar fail2ban, iptables y utilidades de red
 RUN apk add --no-cache fail2ban iptables ip6tables tzdata
 
+# Eliminar cárceles preconfiguradas del sistema (como SSH) que causan errores por falta de logs locales
+RUN rm -rf /etc/fail2ban/jail.d/*
+
 # Crear directorios necesarios
 RUN mkdir -p /var/run/fail2ban && \
     mkdir -p /var/log/nginx

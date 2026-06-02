@@ -13,8 +13,9 @@ COPY snort.conf /etc/snort/snort.conf
 COPY rules/local.rules /etc/snort/rules/local.rules
 
 # Comando de inicio:
+# -U: Desactiva el buffering de salida para mostrar alertas en tiempo real de inmediato
 # -i any: escucha en todas las interfaces de red de la pila compartida
 # -c: ruta de configuración
 # -A console: muestra las alertas en tiempo real en los logs de Docker (didáctico)
 # -l: ruta de almacenamiento de logs
-CMD ["snort", "-i", "any", "-c", "/etc/snort/snort.conf", "-A", "console", "-l", "/var/log/snort"]
+CMD ["snort", "-U", "-i", "any", "-c", "/etc/snort/snort.conf", "-A", "console", "-l", "/var/log/snort"]

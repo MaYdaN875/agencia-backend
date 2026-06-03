@@ -1,4 +1,19 @@
 import * as Hotel from '../models/Hotel.js';
+import { searchHotelsSemantically } from '../utils/vectorDb.js';
+
+export const semanticSearch = async (req, res) => {
+  try {
+    const query = req.query.q || '';
+    if (!query) {
+      return res.status(400).json({ message: "Se requiere un parámetro de consulta 'q'" });
+    }
+    const limit = Number(req.query.limit) || 5;
+    const results = await searchHotelsSemantically(query, limit);
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 export const getAll = async (req, res) => {
   const filters = { location: req.query.location };

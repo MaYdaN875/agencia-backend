@@ -6,6 +6,7 @@ const router = Router();
 router.get('/', HotelController.getAll);
 router.get('/destinations', HotelController.getDestinations);
 router.get('/search', HotelController.searchWithRooms);
+router.get('/semantic-search', HotelController.semanticSearch);
 router.get('/:id', HotelController.getById);
 router.post('/', HotelController.create);
 router.put('/:id', HotelController.update);

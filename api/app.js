@@ -10,6 +10,7 @@ import reservationRoutes from "./routes/reservationRoutes.js";
 import hotelRoomRoutes from "./routes/hotelRoomRoutes.js";
 import locationRoutes from "./routes/locationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import { initVectorDb } from "./utils/vectorDb.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 connection();
+initVectorDb();
 
 app.use(express.json());
 app.use(cookieParser());

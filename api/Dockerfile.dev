@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-slim
 
 # Ubicación de trabajo del proyecto dentro del contenedor
 WORKDIR /usr/src/app

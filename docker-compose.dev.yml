@@ -24,10 +24,12 @@ services:
       - /usr/src/app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+      - CHROMA_URL=http://chromadb:8000
     ports:
       - "3000:3000"
     depends_on:
       - db
+      - chromadb
     env_file:
       - ./api/.env.example  # para desarrollo usamos esto por ahora
   loadbalancer:
@@ -72,6 +74,17 @@ services:
     depends_on:
       - loadbalancer
 
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+
 volumes:
   db_data:
+  chroma_data:
 
